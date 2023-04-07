@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  signaling-server:
+    build:
+      context: signaling-server/
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./signaling-server/src:/home/node/app/src
+      - ./signaling-server/nodemon.json:/home/node/app/nodemon.json
+    container_name: signaling-server
+    expose:
+      - '8080'
+    ports:
+      - '8080:8080'
+    command: npm run dev

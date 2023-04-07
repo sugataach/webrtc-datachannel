@@ -1,13 +1,15 @@
-FROM node:16-alpine
+FROM node:16-alpine as base
 
-RUN npm install -g nodemon
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /home/node/app
 
-COPY package*.json /
-RUN npm install
+COPY package*.json ./
+
+RUN npm i
 
 COPY . .
 
-EXPOSE 8080
-CMD [ "nodemon" ]
+FROM base as production
+
+ENV NODE_PATH=./dist
+
+RUN npm run build
